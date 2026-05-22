@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Parcours optimisé — Sites Internet</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@700;800&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #0f0f0f;
+    font-family: 'DM Mono', monospace;
+    color: #f0ede6;
+    padding: 40px 32px;
+    overflow-x: auto;
+  }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    margin-bottom: 6px;
+  }
+
+  .subtitle {
+    font-size: 10px;
+    color: #555;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+
+  .legend {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 10px;
+    color: #777;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .legend-dot {
+    width: 10px; height: 10px;
+    border-radius: 2px;
+  }
+
+  /* TABLE PRINCIPALE */
+  .swim {
+    display: table;
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 6px;
+    min-width: 1600px;
+  }
+
+  .swim-row {
+    display: table-row;
+  }
+
+  .swim-cell {
+    display: table-cell;
+    vertical-align: top;
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-size: 11px;
+    line-height: 1.5;
+    min-width: 130px;
+  }
+
+  /* Colonne label (première colonne) */
+  .label-cell {
+    min-width: 100px;
+    max-width: 100px;
+    width: 100px;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-align: center;
+    vertical-align: middle;
+    border-radius: 8px;
+    padding: 12px 8px;
+  }
+
+  /* Styles des lignes */
+  .row-duree   .label-cell { background: #1a2744; color: #7ba7f7; }
+  .row-duree   .swim-cell  { background: #111827; color: #7ba7f7; font-size: 10px; text-align: center; vertical-align: middle; }
+
+  .row-etape   .label-cell { background: #1e1e1e; color: #aaa; }
+  .row-etape   .swim-cell  { font-weight: 500; font-size: 11px; }
+
+  .row-client  .label-cell { background: #1e1e1e; color: #777; }
+  .row-client  .swim-cell  { background: #161616; color: #777; font-size: 11px; }
+
+  .row-val     .label-cell { background: #1e1c00; color: #f5c842; }
+  .row-val     .swim-cell  { background: #1a1800; color: #f5c842; border: 1px solid #2e2a00; font-size: 11px; }
+
+  .row-free    .label-cell { background: #0d1f18; color: #52c496; }
+  .row-free    .swim-cell  { background: #0a1a12; color: #52c496; border: 1px solid #1a3a2a; font-size: 11px; }
+
+  .row-outil   .label-cell { background: #1f1508; color: #e08a3a; }
+  .row-outil   .swim-cell  { background: #1a1206; color: #e08a3a; border: 1px solid #3a2a10; font-size: 10px; }
+
+  .row-trous   .label-cell { background: #1f0808; color: #e05a5a; }
+  .row-trous   .swim-cell  { background: #1a0606; color: #e05a5a; border: 1px solid #3a1010; font-size: 10px; }
+
+  /* Couleurs des étapes (ligne étape) */
+  .s1  { background: #111827; color: #7ba7f7; border: 1px solid #1e3060; }
+  .s2  { background: #111827; color: #7ba7f7; border: 1px solid #1e3060; }
+  .s3  { background: #0b1628; color: #a8c8ff; border: 1px solid #1a3060; }
+  .s4  { background: #0b1628; color: #a8c8ff; border: 1px solid #1a3060; }
+  .s5  { background: #0a1a12; color: #52c496; border: 1px solid #1a3a2a; }
+  .s6  { background: #0a1a12; color: #52c496; border: 1px solid #1a3a2a; }
+  .s7  { background: #0a1a12; color: #52c496; border: 1px solid #1a3a2a; }
+  .s8  { background: #0b1628; color: #a8c8ff; border: 1px solid #1a3060; }
+  .s9  { background: #0a1a12; color: #52c496; border: 1px solid #1a3a2a; }
+  .s10 { background: #0a1a12; color: #52c496; border: 1px solid #1a3a2a; }
+  .s11 { background: #061a10; color: #40e0a0; border: 1px solid #0a3020; }
+  .s12 { background: #1a0606; color: #e05a5a; border: 1px solid #3a1010; }
+
+  .step-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 5px;
+  }
+
+  .badge {
+    display: inline-block;
+    font-size: 8px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 2px 5px;
+    border-radius: 3px;
+    margin-bottom: 5px;
+  }
+  .b-ia   { background: #7ba7f7; color: #000; }
+  .b-val  { background: #f5c842; color: #000; }
+  .b-free { background: #52c496; color: #000; }
+
+  .absent { opacity: 0.3; font-style: italic; }
+</style>
+</head>
+<body>
+
+<h1>Parcours optimisé — Sites Internet</h1>
+<p class="subtitle">Version idéale · Raflesium · Mai 2026</p>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:#a8c8ff"></div>Val (valeur ajoutée)</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#7ba7f7"></div>IA</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#52c496"></div>Freelances</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#40e0a0"></div>Livraison</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#e05a5a"></div>Trou à construire</div>
+</div>
+
+<div class="swim">
+
+  <!-- DURÉE -->
+  <div class="swim-row row-duree">
+    <div class="swim-cell label-cell">Durée</div>
+    <div class="swim-cell">< 15 min</div>
+    <div class="swim-cell">< 15 min</div>
+    <div class="swim-cell">30 → 45 min</div>
+    <div class="swim-cell">45 min → 1h</div>
+    <div class="swim-cell">24h après acompte</div>
+    <div class="swim-cell">24h</div>
+    <div class="swim-cell">1 à 4 semaines</div>
+    <div class="swim-cell">45 min → 1h</div>
+    <div class="swim-cell">Max 1 semaine</div>
+    <div class="swim-cell">Max 1 semaine</div>
+    <div class="swim-cell">1 journée</div>
+    <div class="swim-cell">J+7 puis J+30</div>
+  </div>
+
+  <!-- ÉTAPES -->
+  <div class="swim-row row-etape">
+    <div class="swim-cell label-cell">Étapes</div>
+    <div class="swim-cell s1"><span class="step-title">1 — Trigger</span>Reco entrante, réseau, client existant (70% des cas)</div>
+    <div class="swim-cell s2"><span class="step-title">2 — Qualification</span>Scoring auto sur formulaire + budget. 2 drafts mails préparés: go (lien calendrier discovery) ou no-go (alternatives type Wix).</div>
+    <div class="swim-cell s3"><span class="badge b-val">Val</span><span class="step-title">3 — Discovery call</span>Google Meet + Fathom. Jus de cerveau Val. Non délégable.</div>
+    <div class="swim-cell s4"><span class="badge b-val">Val</span><span class="step-title">4 — Offre + reco</span>Google Meet. Page Notion en blocs (evergreen + zones perso depuis transcript). Forfait Vitrine/Stratégique/Sur-mesure.</div>
+    <div class="swim-cell s5"><span class="badge b-ia">IA</span><span class="step-title">5 — Onboarding client</span>Création espace projet dans l'outil interne. Client reçoit accès + mail bienvenue (étapes, checklist assets, calendrier).</div>
+    <div class="swim-cell s6"><span class="badge b-ia">IA</span><span class="step-title">6 — Brief freelances</span>Freelances ajoutés au projet dans outil interne. Accès transcripts Fathom + brief + scope + deadlines. Ordre selon flowchart prod.</div>
+    <div class="swim-cell s7"><span class="badge b-free">Freelances</span><span class="step-title">7 — Production interne</span>Chaîne séquentielle: Alexis (archi/SEO) → Elie (UX/UI Figma) → Fadel (DA, touche magique) → William (implém). Durée varie selon ampleur étude SEO + nb pages.</div>
+    <div class="swim-cell s8"><span class="badge b-val">Val</span><span class="step-title">8 — Présentation maquettes</span>Google Meet + Figma. Val traduit UX en langage business.</div>
+    <div class="swim-cell s9"><span class="badge b-free">Elie</span><span class="step-title">9 — Validation formelle</span>Figma commentaires. Elie gère XS/S. Val arbitre M/L.</div>
+    <div class="swim-cell s10"><span class="badge b-free">William</span><span class="step-title">10 — Staging</span>William porte de bout en bout. Val n'intervient pas.</div>
+    <div class="swim-cell s11"><span class="badge b-free">William + IA</span><span class="step-title">11 — Mise en ligne</span>Migration + audit + formation + clôture.</div>
+    <div class="swim-cell s12"><span class="step-title">12 — After</span>J+7: punch unique — relance items hors scope notés pendant projet (upsell naturel) + demande testimonial + demande prescription nominative. J+30: proposition maintenance.</div>
+  </div>
+
+  <!-- CLIENT -->
+  <div class="swim-row row-client">
+    <div class="swim-cell label-cell">Client</div>
+    <div class="swim-cell">Envoie un message ou répond à une prise de contact.</div>
+    <div class="swim-cell">Remplit le formulaire (budget, objectif, urgence, SEO, nb pages).</div>
+    <div class="swim-cell">Livre contexte, vision, contraintes. Phase de séduction mutuelle.</div>
+    <div class="swim-cell">Réactions en live. Valide ou réfléchit.</div>
+    <div class="swim-cell">Accède à son espace projet dédié. Voit étapes, checklist assets à fournir, calendrier. Sait ce qu'on attend de lui et quand.</div>
+    <div class="swim-cell absent">Aucune intervention.</div>
+    <div class="swim-cell">Fournit assets (photos, textes, accès). Cercle validation async avec Alexis sur archi/SEO si étude conséquente.</div>
+    <div class="swim-cell">Réactions section par section. Questions, nouvelles idées, demandes de modif.</div>
+    <div class="swim-cell">Commente sur Figma. Valide. Signal de go.</div>
+    <div class="swim-cell">Teste depuis son espace projet. Checklist test fournie. Retours consolidés via l'outil. Donne go formel final avant migration prod.</div>
+    <div class="swim-cell">Reçoit formation prise en main par William. Paie le solde. Archive espace projet basculé en mode after.</div>
+    <div class="swim-cell">Donne avis/testimonial. Indique collègues à contacter de sa part. Décide sur items hors scope ressuscités. À J+30: maintenance ou pas.</div>
+  </div>
+
+  <!-- VAL -->
+  <div class="swim-row row-val">
+    <div class="swim-cell label-cell">Val</div>
+    <div class="swim-cell">Répond. 2 min de recherche si inconnu. Envoie le formulaire.</div>
+    <div class="swim-cell">Reçoit le draft selon scoring. Relit, ajuste, envoie. Intervient en cas limite uniquement.</div>
+    <div class="swim-cell">Script evergreen + questions perso depuis formulaire. Go/no-go perso en fin de call: est-ce que j'ai envie de bosser avec ce client.</div>
+    <div class="swim-cell">Présente la page Notion section par section (compréhension → prestations → piliers → roadmap → tarif). Forfait fixe, pas d'heures. Acompte 50% si accord.</div>
+    <div class="swim-cell">Espace projet auto-créé à la signature. Relit mail invitation généré par IA. Ajuste à la marge. Envoie.</div>
+    <div class="swim-cell">Valide brief + scope. Ajoute les bons freelances dans l'outil selon cartographie compétences. Garant cohérence.</div>
+    <div class="swim-cell">Suit l'avancement dans l'outil interne. Arbitre les zones grises. Pas de coordination par mail/Slack.</div>
+    <div class="swim-cell">Intro UX + SEO. Page par page. Gère hors scope en live (XS/S ok, M/L non).</div>
+    <div class="swim-cell">Arbitre uniquement M/L. Valide avant de passer en dev.</div>
+    <div class="swim-cell absent">N'intervient pas.</div>
+    <div class="swim-cell">Relit mail clôture IA. Envoie. Facture solde.</div>
+    <div class="swim-cell">Mail/Loom perso J+7 depuis tags upsell capturés pendant projet. Contacte les prescriptions nominativement. Pousse maintenance à J+30.</div>
+  </div>
+
+  <!-- FREELANCES -->
+  <div class="swim-row row-free">
+    <div class="swim-cell label-cell">Freelances</div>
+    <div class="swim-cell absent">Aucune intervention.</div>
+    <div class="swim-cell absent">Aucune intervention.</div>
+    <div class="swim-cell">Si Val le sent bien en fin de call, ping informel sur dispo + scope pressenti.</div>
+    <div class="swim-cell absent">Aucune intervention.</div>
+    <div class="swim-cell absent">Aucune intervention.</div>
+    <div class="swim-cell">Rejoint l'espace projet. Lit transcripts + brief + scope. Confirme. Questions dans l'outil, pas par mail.</div>
+    <div class="swim-cell">Alexis: archi + SEO (cercle async avec client si besoin). Elie: UX/UI Figma + premières sections. Fadel: direction artistique. William: implém quand validé. Relais clairs dans l'outil interne.</div>
+    <div class="swim-cell">UX/UI designer (Elie) + responsable SEO (Alexis) présents si le projet le justifie.</div>
+    <div class="swim-cell">Elie intègre retours XS/S directement via outil interne. Autonome. Critères XS/S/M/L visibles.</div>
+    <div class="swim-cell">William envoie lien staging via outil interne, collecte retours, filtre, corrige. Autonome.</div>
+    <div class="swim-cell">William: migration, audit complet, formation prise en main client.</div>
+    <div class="swim-cell absent">Aucune intervention.</div>
+  </div>
+
+  <!-- OUTIL -->
+  <div class="swim-row row-outil">
+    <div class="swim-cell label-cell">Outil</div>
+    <div class="swim-cell">WhatsApp / Mail / Tel + capture lead outil interne</div>
+    <div class="swim-cell">Formulaire + moteur scoring + templates mail go/no-go + lien calendrier + outil interne (pipeline lead)</div>
+    <div class="swim-cell">Google Meet + Fathom + outil interne (recap auto + capture verbatims/décisions + tagging items hors scope pressentis)</div>
+    <div class="swim-cell">Google Meet + Fathom + Notion (blocs) + agent IA offre + outil interne (création projet auto à la signature)</div>
+    <div class="swim-cell">Outil interne projet (espace client) + agent IA mail + base templates</div>
+    <div class="swim-cell">Outil interne (espace projet partagé freelances) + agent IA brief + template universel + cartographie compétences</div>
+    <div class="swim-cell">Outil interne projet (hub central) + Figma + Slack urgences uniquement</div>
+    <div class="swim-cell">Google Meet + Figma + Fathom + outil interne (recap auto + push retours dans projet)</div>
+    <div class="swim-cell">Figma + outil interne (suivi retours + relance auto si pas de retour sous 1 semaine)</div>
+    <div class="swim-cell">Outil interne (envoi URL staging + checklist test client + consolidation retours)</div>
+    <div class="swim-cell">Outil interne (clôture déclenchée → mail IA + facture solde + bascule mode after) + agent IA + facturation</div>
+    <div class="swim-cell">Outil interne (tags items hors scope pendant projet + drafts J+7 et J+30) + template testimonial 3 questions</div>
+  </div>
+
+  <!-- TROUS -->
+  <div class="swim-row row-trous">
+    <div class="swim-cell label-cell">Trous</div>
+    <div class="swim-cell">Formulaire à refondre. Trancher sur l'outil (quitter Notion).</div>
+    <div class="swim-cell">Refonte formulaire — obj 8 (alimente scoring). Grille scoring (budget, scope, urgence) à formaliser. Templates mail go (calendrier) + no-go (alternatives Wix, Webflow, autres devs).</div>
+    <div class="swim-cell">Script evergreen à formaliser. Agent recap post-call à construire: mail de suivi récap + annonce offre sous 3-5 jours ouvrés.</div>
+    <div class="swim-cell">Page Notion en blocs (evergreen / perso / jamais inclus) — obj 7. Grille tarifaire forfaits (Vitrine/Stratégique/Sur-mesure) — obj 10. Roadmap envoyable — obj 9.</div>
+    <div class="swim-cell">Module onboarding dans outil interne à construire (espace client, checklist assets, calendrier visible). Template mail invitation + agent IA à créer.</div>
+    <div class="swim-cell">Cartographie compétences freelances — obj 1. Flowchart production — obj 2. Template brief universel + module freelance dans outil interne.</div>
+    <div class="swim-cell">Cartographie + flowchart (obj 1 + 2) appliqués. Overlaps tranchés. Workflow validation client async sur archi (Alexis) à formaliser. Tagging demandes hors scope pendant prod → pot upsell (obj 5).</div>
+    <div class="swim-cell">Critères XS/S/M/L à documenter — cadrage explicite scope IN/OUT. Trame présentation + template mail post-call à standardiser (obj 11). Tagging M/L → pot upsell (obj 5).</div>
+    <div class="swim-cell">Process Elie autonome à documenter. Relance auto à mettre en place. Tagging M/L hors scope → pot upsell (obj 5).</div>
+    <div class="swim-cell">Checklist test client à créer. Process William autonome à documenter. Go formel client (revalidation finale) avant migration prod. Tagging demandes tardives → pot upsell.</div>
+    <div class="swim-cell">Template mail clôture + agent IA à créer. Workflow facturation auto depuis outil interne.</div>
+    <div class="swim-cell">Système tagging items hors scope dans outil interne (capture pendant projet) — obj 5. Template mail/Loom J+7 + testimonial 3 questions + pitch prescription nominative. Forfait maintenance à formaliser.</div>
+  </div>
+
+</div>
+</body>
+</html>
