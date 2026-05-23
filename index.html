@@ -10,9 +10,9 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
-    background: #0f0f0f;
+    background: #ffffff;
     font-family: 'DM Mono', monospace;
-    color: #f0ede6;
+    color: #1f2937;
     padding: 40px 32px;
     overflow-x: auto;
   }
@@ -21,12 +21,13 @@
     font-family: 'Syne', sans-serif;
     font-size: 28px;
     font-weight: 800;
+    color: #111827;
     margin-bottom: 6px;
   }
 
   .subtitle {
     font-size: 10px;
-    color: #555;
+    color: #9ca3af;
     letter-spacing: 2px;
     text-transform: uppercase;
     margin-bottom: 24px;
@@ -43,7 +44,7 @@
     align-items: center;
     gap: 6px;
     font-size: 10px;
-    color: #777;
+    color: #4b5563;
     letter-spacing: 1px;
     text-transform: uppercase;
   }
@@ -90,41 +91,41 @@
     padding: 12px 8px;
   }
 
-  /* Styles des lignes — palette saturée pour distinction max */
-  .row-duree   .label-cell { background: #312e81; color: #c4b5fd; }
-  .row-duree   .swim-cell  { background: #1e1b4b; color: #c4b5fd; font-size: 10px; text-align: center; vertical-align: middle; border: 1px solid #4338ca; }
+  /* Styles des lignes — fonds clairs teintés, texte saturé foncé pour lisibilité sur blanc */
+  .row-duree   .label-cell { background: #4338ca; color: #ffffff; }
+  .row-duree   .swim-cell  { background: #eef2ff; color: #4338ca; font-size: 10px; text-align: center; vertical-align: middle; border: 1px solid #c7d2fe; }
 
-  .row-etape   .label-cell { background: #1e1e1e; color: #e5e5e5; }
+  .row-etape   .label-cell { background: #1f2937; color: #ffffff; }
   .row-etape   .swim-cell  { font-weight: 500; font-size: 11px; }
 
-  .row-client  .label-cell { background: #155e75; color: #67e8f9; }
-  .row-client  .swim-cell  { background: #083344; color: #67e8f9; font-size: 11px; border: 1px solid #0e7490; }
+  .row-client  .label-cell { background: #0e7490; color: #ffffff; }
+  .row-client  .swim-cell  { background: #ecfeff; color: #155e75; font-size: 11px; border: 1px solid #a5f3fc; }
 
-  .row-val     .label-cell { background: #78350f; color: #fcd34d; }
-  .row-val     .swim-cell  { background: #422006; color: #fcd34d; border: 1px solid #b45309; font-size: 11px; }
+  .row-val     .label-cell { background: #b45309; color: #ffffff; }
+  .row-val     .swim-cell  { background: #fffbeb; color: #92400e; border: 1px solid #fde68a; font-size: 11px; }
 
-  .row-free    .label-cell { background: #115e59; color: #5eead4; }
-  .row-free    .swim-cell  { background: #042f2e; color: #5eead4; border: 1px solid #0d9488; font-size: 11px; }
+  .row-free    .label-cell { background: #0d9488; color: #ffffff; }
+  .row-free    .swim-cell  { background: #f0fdfa; color: #115e59; border: 1px solid #99f6e4; font-size: 11px; }
 
-  .row-outil   .label-cell { background: #7c2d12; color: #fdba74; }
-  .row-outil   .swim-cell  { background: #431407; color: #fdba74; border: 1px solid #c2410c; font-size: 10px; }
+  .row-outil   .label-cell { background: #c2410c; color: #ffffff; }
+  .row-outil   .swim-cell  { background: #fff7ed; color: #9a3412; border: 1px solid #fed7aa; font-size: 10px; }
 
-  .row-trous   .label-cell { background: #7f1d1d; color: #fca5a5; }
-  .row-trous   .swim-cell  { background: #450a0a; color: #fca5a5; border: 1px solid #b91c1c; font-size: 10px; }
+  .row-trous   .label-cell { background: #b91c1c; color: #ffffff; }
+  .row-trous   .swim-cell  { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; font-size: 10px; }
 
-  /* Couleurs des étapes (ligne étape) — alignées sur badges IA (bleu) / Val (or) / Free (vert) */
-  .s1  { background: #0f172a; color: #94a3b8; border: 1px solid #334155; }
-  .s2  { background: #0c1f3d; color: #93c5fd; border: 1px solid #1e40af; }
-  .s3  { background: #422006; color: #fcd34d; border: 1px solid #b45309; }
-  .s4  { background: #422006; color: #fcd34d; border: 1px solid #b45309; }
-  .s5  { background: #0c1f3d; color: #93c5fd; border: 1px solid #1e40af; }
-  .s6  { background: #0c1f3d; color: #93c5fd; border: 1px solid #1e40af; }
-  .s7  { background: #042f2e; color: #5eead4; border: 1px solid #0d9488; }
-  .s8  { background: #422006; color: #fcd34d; border: 1px solid #b45309; }
-  .s9  { background: #042f2e; color: #5eead4; border: 1px solid #0d9488; }
-  .s10 { background: #042f2e; color: #5eead4; border: 1px solid #0d9488; }
-  .s11 { background: #052e16; color: #86efac; border: 1px solid #15803d; }
-  .s12 { background: #4a044e; color: #f0abfc; border: 1px solid #86198f; }
+  /* Couleurs des étapes (ligne étape) — alignées sur badges IA (bleu) / Val (ambre) / Free (teal) */
+  .s1  { background: #f8fafc; color: #475569; border: 1px solid #cbd5e1; }
+  .s2  { background: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe; }
+  .s3  { background: #fffbeb; color: #92400e; border: 1px solid #fde68a; }
+  .s4  { background: #fffbeb; color: #92400e; border: 1px solid #fde68a; }
+  .s5  { background: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe; }
+  .s6  { background: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe; }
+  .s7  { background: #f0fdfa; color: #115e59; border: 1px solid #99f6e4; }
+  .s8  { background: #fffbeb; color: #92400e; border: 1px solid #fde68a; }
+  .s9  { background: #f0fdfa; color: #115e59; border: 1px solid #99f6e4; }
+  .s10 { background: #f0fdfa; color: #115e59; border: 1px solid #99f6e4; }
+  .s11 { background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; }
+  .s12 { background: #fdf4ff; color: #86198f; border: 1px solid #f5d0fe; }
 
   .step-title {
     font-family: 'Syne', sans-serif;
@@ -144,11 +145,11 @@
     border-radius: 3px;
     margin-bottom: 5px;
   }
-  .b-ia   { background: #60a5fa; color: #000; }
-  .b-val  { background: #fcd34d; color: #000; }
-  .b-free { background: #5eead4; color: #000; }
+  .b-ia   { background: #3b82f6; color: #fff; }
+  .b-val  { background: #f59e0b; color: #1a1a1a; }
+  .b-free { background: #14b8a6; color: #fff; }
 
-  .absent { opacity: 0.3; font-style: italic; }
+  .absent { opacity: 0.45; font-style: italic; }
 </style>
 </head>
 <body>
@@ -157,11 +158,11 @@
 <p class="subtitle">Version idéale · Raflesium · Mai 2026</p>
 
 <div class="legend">
-  <div class="legend-item"><div class="legend-dot" style="background:#fcd34d"></div>Val (valeur ajoutée)</div>
-  <div class="legend-item"><div class="legend-dot" style="background:#60a5fa"></div>IA</div>
-  <div class="legend-item"><div class="legend-dot" style="background:#5eead4"></div>Freelances</div>
-  <div class="legend-item"><div class="legend-dot" style="background:#86efac"></div>Livraison</div>
-  <div class="legend-item"><div class="legend-dot" style="background:#f0abfc"></div>After</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#f59e0b"></div>Val (valeur ajoutée)</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#3b82f6"></div>IA</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#14b8a6"></div>Freelances</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#22c55e"></div>Livraison</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#d946ef"></div>After</div>
 </div>
 
 <div class="swim">
