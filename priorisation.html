@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Priorisation chantiers — Impact / Effort</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@700;800&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #ffffff;
+    font-family: 'DM Mono', monospace;
+    color: #1f2937;
+    padding: 40px 32px 60px;
+  }
+
+  h1 { font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 800; color: #111827; margin-bottom: 6px; }
+  .subtitle { font-size: 10px; color: #9ca3af; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 22px; }
+
+  .legend { display: flex; gap: 18px; margin-bottom: 22px; flex-wrap: wrap; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 10px; color: #4b5563; letter-spacing: 1px; text-transform: uppercase; }
+  .legend-dot { width: 10px; height: 10px; border-radius: 2px; }
+  .legend-ring { width: 12px; height: 12px; border-radius: 3px; border: 2px solid #dc2626; background: #fff; }
+
+  /* MATRICE */
+  .matrix {
+    position: relative;
+    width: 100%;
+    max-width: 1180px;
+    height: 760px;
+    margin: 0 auto;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    background:
+      linear-gradient(#f9fafb 0 0) padding-box;
+  }
+  /* axes */
+  .axis-v { position: absolute; left: 50%; top: 0; bottom: 0; border-left: 1px dashed #d1d5db; }
+  .axis-h { position: absolute; top: 50%; left: 0; right: 0; border-top: 1px dashed #d1d5db; }
+
+  .quad-label { position: absolute; font-size: 11px; font-weight: 500; letter-spacing: .5px; color: #9ca3af; text-transform: uppercase; }
+  .q-tl { top: 12px; left: 16px; color: #16a34a; }
+  .q-tr { top: 12px; right: 16px; color: #b45309; text-align: right; }
+  .q-bl { bottom: 12px; left: 16px; }
+
+  .axis-name { position: absolute; font-size: 11px; font-weight: 700; letter-spacing: 2px; color: #6b7280; text-transform: uppercase; font-family: 'Syne', sans-serif; }
+  .axis-x { bottom: -30px; left: 50%; transform: translateX(-50%); }
+  .axis-y { top: 50%; left: -34px; transform: translateY(-50%) rotate(-90deg); }
+
+  /* cards */
+  .card {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    width: 150px;
+    padding: 7px 9px;
+    border-radius: 8px;
+    border: 1px solid;
+    font-size: 10px;
+    line-height: 1.35;
+    background: #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,.06);
+    cursor: default;
+  }
+  .card .num { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 11px; margin-right: 4px; }
+  .card .ttl { font-weight: 500; }
+
+  /* categories */
+  .c-infra   { border-color: #c4b5fd; background: #f5f3ff; color: #5b21b6; }
+  .c-offre   { border-color: #fcd34d; background: #fffbeb; color: #92400e; }
+  .c-prod    { border-color: #99f6e4; background: #f0fdfa; color: #115e59; }
+  .c-upsell  { border-color: #bbf7d0; background: #f0fdf4; color: #15803d; }
+  .c-pilot   { border-color: #bfdbfe; background: #eff6ff; color: #1e40af; }
+  .c-perso   { border-color: #e5e7eb; background: #f9fafb; color: #6b7280; }
+
+  /* priorité mois 2 */
+  .prio { box-shadow: 0 0 0 2px #dc2626, 0 1px 4px rgba(0,0,0,.12); }
+  .prio .badge-m2 {
+    position: absolute; top: -9px; right: -8px;
+    background: #dc2626; color: #fff; font-size: 8px; font-weight: 500;
+    letter-spacing: .5px; padding: 1px 5px; border-radius: 10px;
+  }
+
+  /* zone Plus tard (quadrant bas-droite) */
+  .later {
+    position: absolute;
+    right: 18px; bottom: 18px;
+    width: 40%;
+    background: rgba(243,244,246,.85);
+    border: 1px dashed #d1d5db;
+    border-radius: 10px;
+    padding: 12px 14px;
+  }
+  .later h3 { font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 700; color: #6b7280; margin-bottom: 8px; letter-spacing: .5px; }
+  .later .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip { font-size: 9px; color: #6b7280; background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 3px 8px; }
+</style>
+</head>
+<body>
+
+<h1>Priorisation des chantiers — Impact / Effort</h1>
+<p class="subtitle">Raflesium · Mai 2026 · 12 chantiers · 4 prioritaires Mois 2</p>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:#7c3aed"></div>Cœur / infra</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#d97706"></div>Offre &amp; marge</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#0d9488"></div>Production / freelance</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#16a34a"></div>Upsell / client</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#2563eb"></div>Pilotage</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#9ca3af"></div>Perso</div>
+  <div class="legend-item"><div class="legend-ring"></div>Prioritaire Mois 2 (Johanna)</div>
+</div>
+
+<div class="matrix">
+  <div class="axis-v"></div>
+  <div class="axis-h"></div>
+
+  <div class="quad-label q-tl">⚡ Quick wins — fort impact · faible effort</div>
+  <div class="quad-label q-tr">🏗️ Gros chantiers — préalables · fort effort</div>
+  <div class="quad-label q-bl">🧘 Bonus — si le temps</div>
+
+  <div class="axis-name axis-x">Effort →</div>
+  <div class="axis-name axis-y">Impact →</div>
+
+  <!-- cards : left = effort, top = impact (haut = fort) -->
+  <div class="card c-offre"  style="left:13%; top:13%" title="Sortir du prix à l'heure, prévisibilité marge, ancre psycho 3 tiers.">
+    <span class="num">4</span><span class="ttl">Grille tarifaire forfaits</span></div>
+
+  <div class="card c-offre prio" style="left:30%; top:30%" title="Filtrer dès l'entrée, me sortir de la qualification.">
+    <span class="badge-m2">M2</span><span class="num">5</span><span class="ttl">Formulaire + scoring</span></div>
+
+  <div class="card c-offre"  style="left:43%; top:21%" title="Duplication offre <30 min, capitaliser.">
+    <span class="num">3</span><span class="ttl">Offre en blocs + BDD</span></div>
+
+  <div class="card c-pilot"  style="left:56%; top:15%" title="Vision marge/CA par projet, sortir de Dougs.">
+    <span class="num">11</span><span class="ttl">Pilotage financier</span></div>
+
+  <div class="card c-upsell prio" style="left:52%; top:32%" title="Exploiter le pot upsell, MRR maintenance.">
+    <span class="badge-m2">M2</span><span class="num">8</span><span class="ttl">Post-livraison J+7/J+30</span></div>
+
+  <div class="card c-infra prio"  style="left:69%; top:20%" title="Les 5 agents : Plume, Commercial, Mémoire, Recherche, Concierge.">
+    <span class="badge-m2">M2</span><span class="num">2</span><span class="ttl">Système d'agents IA (Mémoire d'abord)</span></div>
+
+  <div class="card c-infra prio"  style="left:82%; top:10%" title="Moteur d'autonomie, colonne vertébrale. Préalable de tout.">
+    <span class="badge-m2">M2</span><span class="num">1</span><span class="ttl">Outil interne projet (cœur)</span></div>
+
+  <div class="card c-upsell" style="left:13%; top:40%" title="Cadrer attentes dès la signature, réduire hors scope.">
+    <span class="num">9</span><span class="ttl">Doc parcours client envoyable</span></div>
+
+  <div class="card c-prod"   style="left:28%; top:45%" title="Standardiser 5 moments clés, nourrit l'Agent Plume.">
+    <span class="num">7</span><span class="ttl">Base de contenu comms</span></div>
+
+  <div class="card c-prod"   style="left:46%; top:43%" title="Assignment auto freelances, fin des chevauchements.">
+    <span class="num">6</span><span class="ttl">Cartographie + flowchart prod</span></div>
+
+  <div class="card c-prod"   style="left:20%; top:54%" title="Arbitrage scope explicite, autonomie Elie sur XS/S.">
+    <span class="num">10</span><span class="ttl">Critères XS/S/M/L + trame</span></div>
+
+  <div class="card c-perso"  style="left:33%; top:63%" title="Capture/triage perso, séparé des ops business.">
+    <span class="num">12</span><span class="ttl">Second cerveau Obsidian</span></div>
+
+  <!-- zone Plus tard -->
+  <div class="later">
+    <h3>🕓 Plus tard / hors fenêtre</h3>
+    <div class="chips">
+      <span class="chip">Agent SEO (pré-étude Alexis)</span>
+      <span class="chip">Premier draft Figma (MCP, Elie)</span>
+      <span class="chip">ERP / compta complet</span>
+      <span class="chip">CRM acquisition</span>
+      <span class="chip">Espace projet multi-offres</span>
+      <span class="chip">Podcast d'after</span>
+      <span class="chip">Déléguer étape 8 à un PM</span>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
